@@ -692,6 +692,36 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize TN Calculator
   const calculator = new TNCalculator();
 
+  // Lazy load iframes using Intersection Observer
+  const iframeObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const iframe = entry.target;
+          const dataSrc = iframe.getAttribute("data-src");
+
+          if (dataSrc && !iframe.src) {
+            // Load the iframe when it comes into view
+            iframe.src = dataSrc;
+
+            // Remove the observer since we only need to load once
+            iframeObserver.unobserve(iframe);
+          }
+        }
+      });
+    },
+    {
+      rootMargin: "100px", // Start loading 100px before the iframe comes into view
+    }
+  );
+
+  // Observe all iframes with data-src attributes
+  document
+    .querySelectorAll(".iframe-container iframe[data-src]")
+    .forEach((iframe) => {
+      iframeObserver.observe(iframe);
+    });
+
   // Handle iframe loading
   document.querySelectorAll(".iframe-container iframe").forEach((iframe) => {
     // Show skeleton loader initially
@@ -709,32 +739,25 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       iframe.removeAttribute("aria-hidden");
 
-      // Set initial height based on content
-      if (container.classList.contains("reports-container")) {
-        container.style.minHeight = "700px";
-        iframe.style.height = "100%";
-      } else {
-        const formHeight = iframe.contentWindow.document.body.scrollHeight;
-        container.style.minHeight = `${Math.max(1500, formHeight)}px`;
-        iframe.style.height = "100%";
-      }
+      // Fixed heights are now handled by CSS
+      iframe.style.height = "100%";
     });
 
     // Set initial ARIA states
     iframe.removeAttribute("aria-hidden");
+
+    // Add iframe focus and blur for accessibility outline (optional)
+    iframe.addEventListener("focus", () => {
+      iframe.style.outline = "2px solid #007bff";
+      iframe.style.outlineOffset = "2px";
+    });
+
+    iframe.addEventListener("blur", () => {
+      iframe.style.outline = "none";
+    });
   });
 
-  // Adjust iframe heights on window resize
-  window.addEventListener("resize", () => {
-    document
-      .querySelectorAll(".iframe-container iframe.loaded")
-      .forEach((iframe) => {
-        const container = iframe.closest(".iframe-container");
-        const formHeight = iframe.contentWindow.document.body.scrollHeight;
-        container.style.minHeight = `${Math.max(1500, formHeight)}px`;
-        iframe.style.height = "100%";
-      });
-  });
+  // Fixed heights are now handled by CSS - no need for dynamic resizing
 
   // Initialize Burger Menu Button
   initMenuButton();

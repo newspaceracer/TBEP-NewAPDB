@@ -421,7 +421,6 @@ h2[tabindex="0"]:focus {
   max-width: 600px;
   margin: 0 auto;
   height: 100%;
-  min-height: 1500px;
   background: var(--light-gray);
 }
 
@@ -434,21 +433,37 @@ h2[tabindex="0"]:focus {
   left: 0;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
-  tabindex: -1;
-  aria-hidden: "true";
+  /* Remove problematic CSS properties that were causing issues */
 }
 
 /* Ensure iframe fills container */
 .iframe-container iframe.loaded {
   opacity: 1;
   height: 100% !important;
-  min-height: inherit;
+}
+
+/* Improve iframe interaction and scrolling */
+.iframe-container iframe {
+  cursor: pointer;
+  /* Ensure iframe can receive focus and handle scroll events properly */
+}
+
+.iframe-container iframe:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* Better iframe scroll handling */
+.iframe-container {
+  /* Ensure iframe container can handle scroll events properly */
+  position: relative;
 }
 
 /* Card body containing iframe should stretch */
 .card-body .iframe-container {
   flex: 1;
-  height: auto;
+  height: 100%;
+  overflow: hidden;
 }
 
 /* Skeleton Loader */
@@ -557,14 +572,24 @@ h2[tabindex="0"]:focus {
 }
 
 .btn-primary {
-  background-color: var(--button-primary-color-background-default);
-  border-color: var(--button-primary-color-border-default);
-  color: var(--color-white-solid);
+  display: inline-flex;
+  padding: 0.5rem 1rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  border-radius: 0.375rem;
+  border: 1px solid #065996;
+  background: #065996;
+  transition: all 300ms ease-out;
+  color: white;
+  width: auto;
+  text-decoration: none;
 }
 
 .btn-primary:hover {
-  background-color: var(--button-primary-color-background-hover);
-  border-color: var(--button-primary-color-border-hover);
+  border: 1px solid #033b66;
+  background: #033b66;
+  text-decoration: none;
 }
 
 /* Calculator Result */
@@ -761,6 +786,7 @@ h2[tabindex="0"]:focus {
   padding: 1em;
   font-size: 1em;
   background: transparent;
+  appearance: none;
   -webkit-appearance: none;
   border: none;
 }
@@ -1578,28 +1604,6 @@ h2[tabindex="0"]:focus {
   z-index: var(--z-index-above);
 }
 
-/* Primary Button Styles */
-.calculator-form .btn.btn-primary {
-  display: inline-flex;
-  padding: 0.5rem 1rem;
-  justify-content: center;
-  align-items: center;
-  gap: 0.625rem;
-
-  border-radius: 0.375rem;
-  border: 1px solid var(--button-primary-color-border-default, #065996);
-  background: var(--button-primary-color-background-default, #065996);
-
-  transition: all 300ms ease-out;
-  color: white;
-  width: auto;
-}
-
-.calculator-form .btn.btn-primary:hover {
-  border: 1px solid var(--button-primary-color-border-hover, #033b66);
-  background: var(--button-primary-color-background-hover, #033b66);
-}
-
 /* Form Validation Styles */
 .form-control.is-invalid,
 .form-select.is-invalid {
@@ -1686,12 +1690,10 @@ h2[tabindex="0"]:focus {
 
   .iframe-container {
     max-width: 100%;
-    min-height: 800px;
   }
 
   .iframe-container.reports-container {
     max-width: 100%;
-    min-height: 500px;
   }
 
   h2 {
@@ -1772,8 +1774,9 @@ h2[tabindex="0"]:focus {
 
 .iframe-container.reports-container {
   max-width: 100%;
-  min-height: 500px;
   width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 .iframe-container.reports-container iframe {
@@ -1785,36 +1788,32 @@ h2[tabindex="0"]:focus {
   left: 0;
   opacity: 1;
   transition: opacity 0.3s ease-in-out;
+  overflow: auto;
 }
 
 /* Ensure iframe fills container */
 .iframe-container.reports-container iframe.loaded {
   opacity: 1;
   height: 100% !important;
-  min-height: inherit;
 }
 
-/* Form iframe container in existing projects section */
-#existing-projects .card:last-child .iframe-container {
-  width: 100%;
+/* Form iframe container in existing projects section - now handled by specific card classes */
+
+/* Specific card body heights */
+.card-body.new-project-form-card {
+  height: 1500px;
+}
+
+.card-body.existing-projects-reports-card {
   height: 700px;
-  max-width: 100%;
-  min-height: 700px;
 }
 
-#existing-projects .card:last-child .iframe-container iframe {
-  width: 100%;
+.card-body.existing-projects-form-card {
   height: 700px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 1;
 }
 
-#existing-projects .card:last-child .iframe-container iframe.loaded {
-  opacity: 1;
-  height: 700px !important;
-  min-height: 700px;
+.card-body.tn-allocation-form-card {
+  height: 1500px;
 }
 
 /* Ensure all elements use border-box */
@@ -1990,6 +1989,8 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 input[type="number"] {
+  appearance: none;
+  -webkit-appearance: none;
   -moz-appearance: textfield;
 }
 

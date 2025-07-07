@@ -150,7 +150,7 @@
         <!-- Report New Project Section -->
         <section id="new-project">
           <div class="report-section" id="new-project-instructions">
-            <h2 id="new-project-heading">Report new project</h2>
+            <h2 class="mt-4" id="new-project-heading">Report new project</h2>
             <p id="new-project-description">
               To add a new project, please enter the information requested on
               the form below. For education or ongoing projects such as street
@@ -163,7 +163,7 @@
           <div class="form-calculator-container">
             <div class="form-container">
               <div class="card">
-                <div class="card-body">
+                <div class="card-body new-project-form-card">
                   <div class="iframe-container">
                     <iframe
                       width="600"
@@ -188,7 +188,7 @@
             </div>
             <div class="calculator-container">
               <div class="card">
-                <div class="calculator-content">
+                <div class="calculator-content calculator-card">
                   <h2 id="calculator-heading">TN estimation load calculator</h2>
                   <p class="calculator-description" id="calculator-description">
                     Only use this tool if you don't already have a TN estimation
@@ -410,27 +410,42 @@
               assistance accessing this information, please contact TBEP for
               support.
             </div>
-            <h2 id="existing-projects-heading">Update existing project</h2>
+            <h2 class="mt-4" id="existing-projects-heading">
+              Update existing project
+            </h2>
             <p id="existing-projects-description">
               To update an existing project, please locate your project number
               in the list below. From there, you can request access to edit the
               project and submit your changes. For education or ongoing
               projects, ensure you're updating the correct year's entry.
             </p>
+            <p>
+              This report is best viewed in its full interactive mode:
+              <a
+                href="https://app.smartsheet.com/b/publish?EQBCT=459401b841dd4a089db7ea348bd03308"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-primary"
+                role="button"
+                aria-label="View full interactive report in new window"
+              >
+                View Full Report
+              </a>
+            </p>
           </div>
+
           <div class="card">
-            <div class="card-body">
+            <div class="card-body existing-projects-reports-card">
               <div class="iframe-container reports-container">
                 <iframe
                   class="smartsheet-reports-iframe"
                   width="1000"
                   height="700"
                   frameborder="0"
-                  src="https://app.smartsheet.com/b/publish?EQBCT=459401b841dd4a089db7ea348bd03308"
+                  data-src="https://app.smartsheet.com/b/publish?EQBCT=459401b841dd4a089db7ea348bd03308"
                   title="Smartsheet Reports View"
                   loading="lazy"
-                  tabindex="-1"
-                  aria-hidden="true"
+                  scrolling="yes"
                 >
                   <p>
                     Your browser does not support iframes. Please
@@ -446,12 +461,12 @@
             </div>
           </div>
           <div class="card">
-            <div class="card-body">
-              <div class="iframe-container">
+            <div class="card-body existing-projects-form-card">
+              <div class="iframe-container reports-container">
                 <iframe
                   width="1000"
                   height="700"
-                  src="https://app.smartsheet.com/b/form/0e2dfc54698e4ddf90ff0ae90e969a69"
+                  data-src="https://app.smartsheet.com/b/form/0e2dfc54698e4ddf90ff0ae90e969a69"
                   title="Smartsheet Form"
                   loading="lazy"
                 >
@@ -477,7 +492,9 @@
           class="mb-5"
         >
           <div class="report-section" id="tn-allocation-instructions">
-            <h2 id="tn-allocation-heading">Report TN allocation transfer</h2>
+            <h2 class="mt-4" class="mt-4" id="tn-allocation-heading">
+              Report TN allocation transfer
+            </h2>
             <p id="tn-allocation-description">
               Use this form to report transfers of TN allocation between
               entities, consistent with Decision Memo #19. Please ensure you
@@ -487,12 +504,11 @@
             </p>
           </div>
           <div class="card">
-            <div class="card-body">
+            <div class="card-body tn-allocation-form-card">
               <div class="iframe-container reports-container">
                 <iframe
                   width="900"
-                  height="600"
-                  src="https://app.smartsheet.com/b/form/8918f2ed52e04edf828bd22b5ce72850"
+                  data-src="https://app.smartsheet.com/b/form/8918f2ed52e04edf828bd22b5ce72850"
                   title="TN Allocation Transfer Form"
                   loading="lazy"
                 >
@@ -515,7 +531,10 @@
 
     <footer class="footer" role="contentinfo">
       <div class="content-container">
-        <p>&copy; 2024 TBEP Action Plan Database. All rights reserved.</p>
+        <p id="footer-copyright">
+          &copy; <span id="current-year">2024</span> TBEP Action Plan Database.
+          All rights reserved.
+        </p>
       </div>
     </footer>
 
@@ -560,6 +579,14 @@
               }
             });
           });
+      });
+
+      // Update footer year dynamically
+      document.addEventListener("DOMContentLoaded", function () {
+        const currentYearElement = document.getElementById("current-year");
+        if (currentYearElement) {
+          currentYearElement.textContent = new Date().getFullYear();
+        }
       });
     </script>
   </body>
